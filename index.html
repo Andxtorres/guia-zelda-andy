@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de Zelda Ocarina of Time para Andy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bosque:#1f5e3a; --bosque2:#2f7d4f; --hoja:#e6f2df; --oro:#f2c230; --oro2:#ffe58a;
+    --tinta:#1c2a22; --gris:#5a6b60; --blanco:#fffdf6; --rojo:#c8463a; --azul:#2d6fb3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Baloo 2',system-ui,sans-serif;background:var(--hoja);color:var(--tinta);font-size:19px;line-height:1.45}
+  header{background:linear-gradient(160deg,var(--bosque),var(--bosque2));color:#fff;padding:22px 18px 26px;text-align:center}
+  header h1{margin:0;font-size:30px;font-weight:800;letter-spacing:.3px}
+  header p{margin:6px 0 0;font-size:18px;opacity:.95}
+  .tri{display:inline-block;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:24px solid var(--oro);vertical-align:-3px;margin:0 6px}
+  main{max-width:860px;margin:0 auto;padding:16px}
+  .buscar{display:flex;gap:8px;margin:4px 0 14px}
+  .buscar input{flex:1;font:inherit;font-size:19px;padding:12px 14px;border-radius:14px;border:3px solid var(--bosque2);background:#fff}
+  .etapa{font-weight:800;font-size:22px;margin:18px 4px 8px;color:var(--bosque)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .mision{all:unset;cursor:pointer;background:var(--blanco);border:3px solid #cfe2c6;border-radius:18px;padding:12px 12px 10px;display:flex;gap:10px;align-items:center;box-shadow:0 3px 0 #b9d3ad;transition:transform .08s}
+  .mision:hover,.mision:focus-visible{border-color:var(--oro);transform:translateY(-2px)}
+  .mision .ico{font-size:34px;line-height:1}
+  .mision .num{font-size:14px;color:var(--gris);font-weight:700}
+  .mision .nom{font-weight:800;font-size:18px;line-height:1.15}
+  .mision.hecha{background:#f3f8ef;opacity:.75}
+  .mision.hecha .num::after{content:" ✓ terminada";color:var(--bosque2)}
+  .vista{display:none}
+  .vista.activa{display:block}
+  .volver{all:unset;cursor:pointer;background:var(--bosque);color:#fff;font-weight:800;padding:10px 16px;border-radius:14px;font-size:18px}
+  .tarjeta{background:var(--blanco);border-radius:22px;padding:20px 18px;margin-top:14px;border:4px solid var(--oro);box-shadow:0 5px 0 #d9a91c}
+  .tarjeta h2{margin:0 0 4px;font-size:28px;line-height:1.15}
+  .tarjeta .meta{color:var(--gris);font-size:17px;margin-bottom:10px}
+  .meta-box{background:var(--oro2);border-radius:14px;padding:10px 14px;font-weight:700;margin:10px 0 14px}
+  ol.pasos{list-style:none;padding:0;margin:0;counter-reset:p}
+  ol.pasos li{counter-increment:p;display:flex;gap:12px;align-items:flex-start;padding:10px 6px;border-bottom:2px dashed #e3e9dc;cursor:pointer;border-radius:10px}
+  ol.pasos li::before{content:counter(p);flex:0 0 38px;height:38px;border-radius:50%;background:var(--bosque2);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:19px}
+  ol.pasos li.ok{color:var(--gris);text-decoration:line-through}
+  ol.pasos li.ok::before{content:"✓";background:var(--oro);color:var(--tinta)}
+  .caja{border-radius:14px;padding:12px 14px;margin-top:14px}
+  .caja b{display:block;font-size:19px}
+  .jefe{background:#fde8e4;border:3px solid var(--rojo)}
+  .tip{background:#e3eefa;border:3px solid var(--azul)}
+  .botones{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .btn{all:unset;cursor:pointer;font-weight:800;padding:12px 18px;border-radius:14px;font-size:18px;text-align:center}
+  .btn.verde{background:var(--bosque2);color:#fff}
+  .btn.oro{background:var(--oro);color:var(--tinta)}
+  .btn.gris{background:#e3e9dc;color:var(--tinta)}
+  .ayuda{background:var(--blanco);border-radius:18px;padding:14px 16px;margin-top:22px;border:3px dashed var(--bosque2)}
+  .ayuda h3{margin:0 0 6px;color:var(--bosque)}
+  .ayuda ul{margin:6px 0 0;padding-left:22px}
+  .nota{font-size:15px;color:var(--gris);text-align:center;margin:20px 8px 30px}
+  .vacio{padding:14px;color:var(--gris)}
+  .pista{font-size:16px;color:var(--gris);margin:0 4px 6px}
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="tri"></span>Guía de Andy<span class="tri"></span></h1>
+  <p>Zelda: Ocarina of Time · Toca la misión en la que vas y te digo qué hacer</p>
+</header>
+
+<main>
+  <section id="lista" class="vista activa">
+    <div class="buscar">
+      <input id="q" type="search" placeholder="🔎 Escribe dónde estás (ej. Gohma, agua, Kakariko)" aria-label="Buscar misión">
+    </div>
+    <p class="pista">Tip: cuando termines un paso, tócalo para tacharlo. ✔</p>
+    <div id="contenedor"></div>
+
+    <div class="ayuda">
+      <h3>😵 ¿Te atoraste? Prueba esto</h3>
+      <ul>
+        <li><b>Habla con Navi</b> (la hadita). Muchas veces te dice a dónde ir.</li>
+        <li><b>Busca piedras con un ojo</b> (piedras Sheikah) o búhos: dan pistas.</li>
+        <li><b>Rompe vasijas y corta el pasto</b> si necesitas corazones o rupias.</li>
+        <li><b>Mira el mapa</b>: el punto que parpadea es a donde tienes que ir.</li>
+        <li><b>Si un muro se ve raro o agrietado</b>, ¡ponle una bomba!</li>
+        <li><b>Si nada funciona</b>, pídele ayuda a papá. 😉</li>
+      </ul>
+    </div>
+    <p class="nota">Esta guía sigue la historia de Ocarina of Time. La versión de Switch 2 es nueva, así que algunos detalles (botones, lugares exactos) pueden cambiar un poquito. Los pasos grandes son los mismos.</p>
+  </section>
+
+  <section id="detalle" class="vista">
+    <button class="volver" id="volver">← Todas las misiones</button>
+    <div class="tarjeta" id="tarjeta"></div>
+  </section>
+</main>
+
+<script>
+const MISIONES = [
+ {etapa:"🧒 Link niño", ico:"🌳", nom:"Bosque Kokiri: espada y escudo", donde:"Bosque Kokiri (el pueblito del inicio)",
+  meta:"Conseguir la Espada Kokiri y el Escudo Deku para que te dejen ver al Gran Árbol Deku.",
+  pasos:[
+   "Platica con Saria y los niños Kokiri. ¡Un Kokiri no te deja pasar sin espada y escudo!",
+   "Junta 40 rupias: corta el pasto, rompe vasijas y busca rupias en el pueblo.",
+   "Ve a la tienda y compra el Escudo Deku (40 rupias).",
+   "Busca el campo de entrenamiento (donde hay rocas que ruedan). Gatea por el hoyito pequeño en la pared.",
+   "Esquiva la piedra grande que rueda y abre el cofre: ¡ahí está la Espada Kokiri!",
+   "Ponte la espada y el escudo en el menú de equipo.",
+   "Ahora sí, el Kokiri te deja pasar. Ve a hablar con el Gran Árbol Deku."],
+  tip:"Para equiparte algo, abre el menú y escógelo. Si no lo ves en las manos de Link, ¡no lo tienes puesto!"},
+
+ {etapa:"🧒 Link niño", ico:"🕷️", nom:"Dentro del Árbol Deku", donde:"Árbol Deku (primer calabozo)",
+  meta:"Conseguir la Resortera, bajar al fondo del árbol y vencer a la araña gigante Gohma.",
+  pasos:[
+   "Sube por las enredaderas y las plataformas en la pared del árbol.",
+   "Busca el cofre con la Resortera (una honda). ¡Ahora puedes disparar semillas!",
+   "Usa la resortera para tumbar la escalera y las telarañas de lejos.",
+   "Desde arriba, salta sobre la telaraña grande del piso para romperla y caer.",
+   "Abajo, enciende tu palo Deku con una antorcha y quema telarañas que tapan el camino.",
+   "Empuja el bloque, cruza el agua y sigue bajando hasta la puerta del jefe."],
+  jefe:"Gohma: cuando su ojo se ponga ROJO, dispárale con la resortera. Se caerá: corre y pégale con la espada muchas veces. Repite hasta ganar. Si salen arañitas, pégales primero.",
+  tip:"Recoge el Contenedor de Corazón que aparece al ganar. ¡Te da un corazón más!"},
+
+ {etapa:"🧒 Link niño", ico:"🏰", nom:"Ir a ver a la Princesa Zelda", donde:"Campo de Hyrule → Ciudadela → Castillo",
+  meta:"Llegar al castillo, conocer a Zelda y aprender la Nana de Zelda.",
+  pasos:[
+   "Al salir del bosque, Saria te regala la Ocarina de las Hadas. 🎶",
+   "Cruza el Campo de Hyrule hacia el castillo (sigue el camino). Llega antes de que oscurezca o se cierra el puente.",
+   "En la ciudadela, sube hacia el castillo. Conoce a Malon: te da un huevo. Espera a que nazca un pollito.",
+   "Junto al castillo hay un señor dormido (Talon). Despiértalo con el pollito.",
+   "Empuja las cajas, súbete y brinca al otro lado. Escóndete de los guardias.",
+   "Gatea por el túnel del agua y llega al jardín: ¡ahí está Zelda!",
+   "Impa te enseña la Nana de Zelda. ¡Guárdala bien, la vas a usar muchísimo!"],
+  tip:"En la versión de Switch 2 puedes tocar la ocarina también con tu voz por el micrófono. ¡Pruébalo!"},
+
+ {etapa:"🧒 Link niño", ico:"🐴", nom:"Rancho Lon Lon (opcional)", donde:"Rancho Lon Lon, en medio del Campo de Hyrule",
+  meta:"Aprender la Canción de Epona. Más adelante te sirve para tener caballo.",
+  pasos:[
+   "Ve al rancho de día. Entra al corral grande.",
+   "Habla con Malon mientras canta. Saca tu ocarina.",
+   "Malon te enseña la Canción de Epona.",
+   "Tócale la canción a la potranca Epona para hacerte su amigo."],
+  tip:"Esta misión no es obligatoria, pero cuando seas grande Epona te ayuda a correr rapidísimo."},
+
+ {etapa:"🧒 Link niño", ico:"⛰️", nom:"Kakariko y la Montaña de la Muerte", donde:"Aldea Kakariko → Ciudad Goron",
+  meta:"Subir la montaña, conocer a los Goron y ganarte su ayuda.",
+  pasos:[
+   "En la Aldea Kakariko, enséñale la carta de Zelda al guardia de la puerta. ¡Te deja subir!",
+   "Sube con cuidado: hay rocas que caen y bichos. Compra o consigue un escudo bien.",
+   "Llega a la Ciudad Goron. Los Goron están tristes porque no tienen comida.",
+   "Toca la Nana de Zelda frente a la puerta del Rey Darunia.",
+   "Darunia está enojado. Necesitas la Canción de Saria: regresa al Bosque Kokiri y entra al Bosque Perdido. Sigue la música hasta el Prado Sagrado (cuidado con los lobos). Saria te la enseña.",
+   "Vuelve con Darunia y toca la Canción de Saria. ¡Se pone a bailar! 💃",
+   "Te regala la Pulsera Goron: ya puedes arrancar Flores Bomba y lanzarlas."],
+  tip:"En el Bosque Perdido, si escuchas la música más fuerte, vas por buen camino."},
+
+ {etapa:"🧒 Link niño", ico:"🦖", nom:"Caverna de los Dodongos", donde:"Montaña de la Muerte (entrada tapada con rocas)",
+  meta:"Conseguir la Bolsa de Bombas y vencer al Rey Dodongo.",
+  pasos:[
+   "Arranca una Flor Bomba y lánzala contra las rocas de la entrada.",
+   "Adentro, usa Flores Bomba para romper muros con grietas.",
+   "Pelea con los lagartos (Lizalfos) con tu espada y escudo.",
+   "Busca el cofre con la Bolsa de Bombas: ¡ahora traes tus propias bombas!",
+   "Pon bombas en los ojos de la cabeza gigante de Dodongo para abrir su boca.",
+   "Sigue hasta la puerta del jefe."],
+  jefe:"Rey Dodongo: cuando abra la boca para aspirar, ¡lánzale una bomba adentro! Cuando se caiga, pégale con la espada. Cuando ruede, quítate del camino.",
+  tip:"Si te quedas sin bombas, revisa las Flores Bomba del cuarto."},
+
+ {etapa:"🧒 Link niño", ico:"🐟", nom:"Dominio Zora y Jabu-Jabu", donde:"Río Zora → Dominio Zora → Fuente Zora",
+  meta:"Encontrar a la princesa Ruto, que se tragó un pez gigante.",
+  pasos:[
+   "Sigue el Río Zora (sale del Campo de Hyrule) hasta la cascada.",
+   "Párate frente a la cascada y toca la Nana de Zelda. ¡Se abre!",
+   "En el Dominio Zora, juega a bucear y busca la Escama Plateada para nadar más profundo.",
+   "En el Lago Hylia hay una botella con una carta de Ruto en el fondo. Sácala.",
+   "Enséñale la carta al Rey Zora. Se mueve y te deja pasar.",
+   "Atrapa un pez en una botella y llévalo a la Fuente Zora, frente a Lord Jabu-Jabu.",
+   "Suelta el pez. ¡Jabu-Jabu te traga! 😮"],
+  tip:"La botella es súper útil: también sirve para guardar hadas que te curan."},
+
+ {etapa:"🧒 Link niño", ico:"🫧", nom:"La panza de Jabu-Jabu", donde:"Dentro de Lord Jabu-Jabu",
+  meta:"Rescatar a Ruto, conseguir el Bumerán y vencer a Barinade.",
+  pasos:[
+   "Encuentra a Ruto. Cárgala (levántala como si fuera una caja) y llévala contigo.",
+   "Si la sueltas en un botón del piso, mantiene puertas abiertas.",
+   "Consigue el Bumerán. Úsalo para pegarle a cosas lejanas.",
+   "Corta los tentáculos largos con el bumerán (los que tapan pasillos).",
+   "Lleva a Ruto hasta la puerta del jefe."],
+  jefe:"Barinade: primero lanza el bumerán a los cables que lo sostienen del techo. Luego pégale a las medusas que lo rodean. Cuando se quede sin protección, ¡bumerán y espada! Cuidado con sus rayos.",
+  tip:"Al final Ruto te da la Piedra Zafiro. ¡Ya tienes las tres piedras!"},
+
+ {etapa:"🧒 Link niño", ico:"⏳", nom:"La Espada Maestra", donde:"Castillo → Templo del Tiempo",
+  meta:"Abrir la Puerta del Tiempo y sacar la Espada Maestra.",
+  pasos:[
+   "Regresa al castillo. Verás a Zelda escapar en caballo y te lanza algo al agua del foso.",
+   "¡Es la Ocarina del Tiempo! Bucea y sácala.",
+   "Escucha la Canción del Tiempo.",
+   "Entra al Templo del Tiempo y pon las tres piedras en el altar.",
+   "Toca la Canción del Tiempo: la puerta se abre.",
+   "Saca la Espada Maestra… ¡y despiertas 7 años después, ya grande! 🧑"],
+  tip:"Desde aquí puedes regresar a ser niño poniendo la Espada Maestra en su pedestal otra vez."},
+
+ {etapa:"🧑 Link grande", ico:"🪝", nom:"Gancho y camino al Bosque", donde:"Templo de la Luz → Kakariko → Bosque Perdido",
+  meta:"Conseguir el Gancho Lanzable (Hookshot) y llegar al Templo del Bosque.",
+  pasos:[
+   "En el Templo del Tiempo conoces a Sheik. Te enseña el Minueto del Bosque (toca la canción para viajar).",
+   "Ve al cementerio de Kakariko. Abre la tumba grande de Dampé (jala la lápida).",
+   "Persigue al fantasma de Dampé por el túnel. ¡No te quedes atrás!",
+   "Al final te regala el Gancho Lanzable: dispáralo a cosas de madera para jalarte.",
+   "Ve al Bosque Perdido y al Prado Sagrado. Pelea con los Moblin.",
+   "Sube al árbol de la entrada del Templo del Bosque usando el gancho en las ramas."],
+  tip:"Toca la Canción de Epona en el Rancho Lon Lon para ganar a Epona en una carrera. ¡Caballo propio!"},
+
+ {etapa:"🧑 Link grande", ico:"👻", nom:"Templo del Bosque", donde:"Templo del Bosque",
+  meta:"Atrapar a los cuatro fantasmas Poe, conseguir el Arco y vencer a Ganon Fantasma.",
+  pasos:[
+   "Hay cuatro fantasmas hermanas (Poe) que se robaron las llamas de las antorchas.",
+   "Busca el Arco de las Hadas en un cofre. ¡Ahora tiras flechas!",
+   "Para los fantasmas de los cuadros: dispárales flechas a sus pinturas.",
+   "Cuando tengas las cuatro llamas, baja el elevador del centro.",
+   "Gira el cuarto de abajo (empuja la pared) hasta abrir el camino al jefe."],
+  jefe:"Ganon Fantasma: sale de uno de los cuadros. Dispárale una flecha al que es de verdad (el que sale más rápido). Luego te lanza bolas de energía: ¡regrésalas con la espada como tenis! 🎾",
+  tip:"Si un cuarto se ve raro y torcido, prueba disparar flechas a los ojos que hay en la pared."},
+
+ {etapa:"🧑 Link grande", ico:"🔥", nom:"Templo del Fuego", donde:"Cráter de la Montaña de la Muerte",
+  meta:"Rescatar a los Goron, conseguir el Martillo y vencer al dragón Volvagia.",
+  pasos:[
+   "En la Ciudad Goron, hay un Goron que rueda: tírale una bomba para que se detenga. Te da la Túnica Goron (roja).",
+   "Ponte la Túnica Goron: sin ella el calor te quema.",
+   "Entra al cráter. Sheik te enseña el Bolero del Fuego.",
+   "Libera a los Goron encerrados en celdas.",
+   "Busca el Martillo Megatón: aplasta piedras y palancas.",
+   "Usa el martillo para bajar el pilar grande que lleva al jefe."],
+  jefe:"Volvagia: sale de los hoyos de lava. Cuando asome la cabeza, ¡martillazo! Luego espadazos. Cuando vuele, escóndete de las piedras que caen.",
+  tip:"Si el tiempo de calor se acaba, ¡revisa que traes la túnica roja puesta!"},
+
+ {etapa:"🧑 Link grande", ico:"💧", nom:"Templo del Agua", donde:"Dominio Zora congelado → Lago Hylia",
+  meta:"Conseguir las Botas de Hierro, subir y bajar el agua y vencer a Morpha.",
+  pasos:[
+   "Ve al Dominio Zora: ¡todo está congelado! Entra a la Caverna de Hielo.",
+   "Ahí consigues las Botas de Hierro (para hundirte) y Fuego Azul en una botella.",
+   "Echa el Fuego Azul al hielo del Rey Zora. Te regala la Túnica Zora (azul) para respirar bajo el agua.",
+   "En el Lago Hylia, Sheik te enseña la Serenata del Agua.",
+   "Ponte las botas y la túnica azul, y húndete hasta la puerta del templo.",
+   "Adentro, toca la Nana de Zelda en los símbolos de la Trifuerza para cambiar el nivel del agua.",
+   "En el cuarto con un árbol y niebla pelearás con Link Oscuro: tu sombra. Usa el martillo o espera a que ataque. Ganas el Gancho Largo."],
+  jefe:"Morpha: es una burbuja de agua con un núcleo rojo. Jala el núcleo con el Gancho Largo y pégale con la espada. ¡No te quedes en la orilla!",
+  tip:"Este templo es difícil para todos. Si te pierdes, revisa en qué piso estás y a qué nivel está el agua."},
+
+ {etapa:"🧑 Link grande", ico:"🌑", nom:"Templo de la Sombra", donde:"Kakariko → Pozo → Cementerio",
+  meta:"Conseguir el Ojo de la Verdad y vencer a Bongo Bongo.",
+  pasos:[
+   "En Kakariko hay fuego. Sheik te enseña el Nocturno de la Sombra.",
+   "Hazte niño (pon la espada en el Templo del Tiempo). En el molino de Kakariko, el señor te enseña la Canción de las Tormentas.",
+   "Toca esa canción en el molino: el pozo se seca. Baja y busca el Ojo de la Verdad.",
+   "Hazte grande otra vez. Toca el Nocturno de la Sombra y entra al templo.",
+   "Usa el Ojo de la Verdad para ver paredes falsas y hoyos invisibles. 👁️",
+   "Consigue las Botas Flotantes para caminar en el aire un ratito."],
+  jefe:"Bongo Bongo: es invisible, ¡usa el Ojo de la Verdad! Dispárale a sus dos manos con flechas, y cuando abra su ojo, flecha al ojo y luego espadazos.",
+  tip:"Este templo da un poquito de miedo. Si quieres, juégalo con alguien a tu lado. 😄"},
+
+ {etapa:"🧑 Link grande", ico:"🏜️", nom:"Templo del Espíritu", donde:"Valle Gerudo → Desierto → Coloso",
+  meta:"Cruzar el desierto y vencer a las brujas Twinrova.",
+  pasos:[
+   "En el Valle Gerudo, cruza el puente roto (con Epona o con el gancho).",
+   "En la Fortaleza Gerudo rescata a los cuatro carpinteros sin que te vean. Te dan la Tarjeta Gerudo.",
+   "Cruza el Desierto Encantado: sigue las banderas y luego al fantasma con farol.",
+   "En el Coloso, Sheik te enseña el Réquiem del Espíritu.",
+   "Hazte niño, toca el Réquiem y entra por el hoyo chico: consigue los Guanteletes de Plata.",
+   "Hazte grande y regresa: consigue el Escudo Espejo.",
+   "Usa el Escudo Espejo para reflejar luz del sol en las caras de sol de la pared."],
+  jefe:"Twinrova: una bruja tira hielo y la otra fuego. Ponte el Escudo Espejo y absorbe tres disparos del MISMO color, luego apunta a la otra bruja. Cuando se junten, haz lo mismo y dale espadazos cuando caiga.",
+  tip:"Necesitas jugar como niño Y como grande aquí. Ve y vuelve con la Espada Maestra."},
+
+ {etapa:"🧑 Link grande", ico:"⚔️", nom:"Castillo de Ganon (final)", donde:"Templo del Tiempo → Castillo de Ganon",
+  meta:"¡Derrotar a Ganondorf y salvar Hyrule!",
+  pasos:[
+   "Ve al Templo del Tiempo. Sheik es en realidad… ¡la Princesa Zelda! Te da las Flechas de Luz.",
+   "Junta corazones, hadas en botellas y flechas antes de entrar.",
+   "Los seis sabios crean un puente de arcoíris al castillo.",
+   "Adentro hay seis barreras, una por templo. Rompe cada una con la Flecha de Luz al final de cada reto.",
+   "Sube la torre peleando hasta llegar arriba con Ganondorf."],
+  jefe:"Ganondorf: regrésale sus bolas de energía con la espada. Cuando caiga, Flecha de Luz y luego espadazos. Después se convierte en Ganon gigante: pégale en la COLA, que es su punto débil. Al final, Zelda lo detiene y tú le das el golpe final. ¡Ganaste! 🏆",
+  tip:"Lleva hadas en botellas: si te quedas sin corazones, el hada te revive."}
+];
+
+let guardado = {};
+try { guardado = JSON.parse(localStorage.getItem("zeldaAndy") || "{}"); } catch(e) { guardado = {}; }
+function guardar(){ try { localStorage.setItem("zeldaAndy", JSON.stringify(guardado)); } catch(e){} }
+
+const $ = s => document.querySelector(s);
+const sinAcentos = t => t.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+
+function pintarLista(filtro=""){
+  const c = $("#contenedor"); c.innerHTML = "";
+  const f = sinAcentos(filtro.trim());
+  let etapaActual = null, grid = null, total = 0;
+  MISIONES.forEach((m,i)=>{
+    const texto = sinAcentos([m.nom,m.donde,m.meta,m.jefe||"",m.pasos.join(" ")].join(" "));
+    if (f && !texto.includes(f)) return;
+    total++;
+    if (m.etapa !== etapaActual){
+      etapaActual = m.etapa;
+      const h = document.createElement("div"); h.className="etapa"; h.textContent=m.etapa; c.appendChild(h);
+      grid = document.createElement("div"); grid.className="grid"; c.appendChild(grid);
+    }
+    const b = document.createElement("button");
+    b.className = "mision" + (guardado["m"+i]?.hecha ? " hecha":"");
+    b.innerHTML = `<span class="ico">${m.ico}</span><span><div class="num">Misión ${i+1}</div><div class="nom">${m.nom}</div></span>`;
+    b.onclick = ()=>abrir(i);
+    grid.appendChild(b);
+  });
+  if (!total) c.innerHTML = '<div class="vacio">No encontré esa misión. Prueba con otra palabra, como "agua", "fuego" o el nombre del jefe.</div>';
+}
+
+function abrir(i){
+  const m = MISIONES[i];
+  const est = guardado["m"+i] || {pasos:[]};
+  const t = $("#tarjeta");
+  t.innerHTML = `
+    <div class="meta">${m.etapa} · Misión ${i+1} de ${MISIONES.length}</div>
+    <h2>${m.ico} ${m.nom}</h2>
+    <div class="meta">📍 ${m.donde}</div>
+    <div class="meta-box">🎯 Tu meta: ${m.meta}</div>
+    <ol class="pasos">${m.pasos.map((p,k)=>`<li data-k="${k}" class="${est.pasos?.includes(k)?"ok":""}">${p}</li>`).join("")}</ol>
+    ${m.jefe ? `<div class="caja jefe"><b>👹 Cómo ganarle al jefe</b>${m.jefe}</div>`:""}
+    ${m.tip ? `<div class="caja tip"><b>💡 Consejo</b>${m.tip}</div>`:""}
+    <div class="botones">
+      ${i>0?`<button class="btn gris" id="ant">← Misión anterior</button>`:""}
+      <button class="btn oro" id="hecha">${est.hecha?"✓ ¡Ya la terminé!":"⭐ ¡Terminé esta misión!"}</button>
+      ${i<MISIONES.length-1?`<button class="btn verde" id="sig">Siguiente misión →</button>`:""}
+    </div>`;
+  t.querySelectorAll("li").forEach(li=>li.onclick=()=>{
+    const k = +li.dataset.k;
+    est.pasos = est.pasos || [];
+    if (est.pasos.includes(k)) est.pasos = est.pasos.filter(x=>x!==k); else est.pasos.push(k);
+    li.classList.toggle("ok"); guardado["m"+i]=est; guardar();
+  });
+  $("#hecha").onclick = ()=>{ est.hecha = !est.hecha; guardado["m"+i]=est; guardar(); abrir(i); };
+  if ($("#ant")) $("#ant").onclick = ()=>abrir(i-1);
+  if ($("#sig")) $("#sig").onclick = ()=>abrir(i+1);
+  $("#lista").classList.remove("activa"); $("#detalle").classList.add("activa");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+$("#volver").onclick = ()=>{ $("#detalle").classList.remove("activa"); $("#lista").classList.add("activa"); pintarLista($("#q").value); };
+$("#q").addEventListener("input", e=>pintarLista(e.target.value));
+pintarLista();
+</script>
+</body>
+</html>
